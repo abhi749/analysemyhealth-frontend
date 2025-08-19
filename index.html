@@ -12,15 +12,20 @@
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
         }
         .container { 
-            max-width: 800px; padding: 2rem; background: white; border-radius: 20px;
+            max-width: 900px; padding: 2rem; background: white; border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; margin: 1rem;
         }
         h1 { font-size: 3rem; margin-bottom: 1rem; color: #4f46e5; }
         .emoji { font-size: 4rem; margin-bottom: 1rem; }
         .subtitle { font-size: 1.5rem; color: #6b7280; margin-bottom: 2rem; }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .feature { padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 4px solid #4f46e5; }
-        .feature h3 { color: #4f46e5; margin-bottom: 0.5rem; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .feature { padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 4px solid #4f46e5; text-align: left; }
+        .feature h3 { color: #4f46e5; margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .feature p { margin-bottom: 0.8rem; }
+        .feature .highlight { background: #fef3cd; padding: 0.5rem; border-radius: 6px; font-size: 0.9rem; color: #92400e; margin-top: 0.5rem; }
+        .roadmap { background: #f0f9ff; padding: 1rem; border-radius: 8px; margin: 0.5rem 0; }
+        .roadmap-item { display: flex; align-items: center; margin: 0.5rem 0; font-size: 0.9rem; }
+        .roadmap-item span { margin-right: 0.5rem; }
         .cta { background: #4f46e5; color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 2rem; }
         .cta:hover { background: #4338ca; }
         .privacy { background: #ecfdf5; padding: 1rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #10b981; }
@@ -35,21 +40,39 @@
         <div class="features">
             <div class="feature">
                 <h3>🔒 Complete Privacy</h3>
-                <p>Your health data never leaves your device. All analysis happens locally.</p>
+                <p>Your health data never leaves your device. All analysis happens locally using advanced AI models running in your browser.</p>
+                <div class="highlight">
+                    <strong>⚠️ Unlike ChatGPT or other AI platforms</strong> where uploading personal health data makes it public forever and potentially accessible to sales, marketing, and insurance underwriting teams for monetization - your data stays completely private with us. Not even our admin or data team can read your data.
+                </div>
             </div>
+            
             <div class="feature">
-                <h3>🤖 AI-Powered Insights</h3>
-                <p>Advanced AI analyzes your lab reports and health documents intelligently.</p>
+                <h3>🤖 AI-Powered Medical Insights</h3>
+                <p>Advanced local AI analyzes your lab reports and health documents, integrated with MedlinePlus for reliable, up-to-date medical knowledge from trusted sources.</p>
+                <p><strong>Comprehensive Analysis:</strong> Our system interpolates data across multiple test results and historical trends to provide personalized recommendations and identify patterns you might miss.</p>
+                <div class="highlight">
+                    📊 <strong>Trend Analysis:</strong> Track biomarkers over time, compare with reference ranges, and get alerts for significant changes in your health metrics.
+                </div>
             </div>
+            
             <div class="feature">
-                <h3>📈 Trend Analysis</h3>
-                <p>Track your health metrics over time and identify important patterns.</p>
+                <h3>🚀 Future Integrations</h3>
+                <p>We're building a comprehensive health ecosystem that connects all your wellness data:</p>
+                <div class="roadmap">
+                    <div class="roadmap-item"><span>⌚</span> Fitness bands & smartwatch data</div>
+                    <div class="roadmap-item"><span>🩸</span> Menstrual cycle tracking</div>
+                    <div class="roadmap-item"><span>🍎</span> Nutrition & calorie monitoring</div>
+                    <div class="roadmap-item"><span>😴</span> Sleep pattern analysis</div>
+                    <div class="roadmap-item"><span>💊</span> Medication adherence tracking</div>
+                    <div class="roadmap-item"><span>🏥</span> Healthcare provider integration</div>
+                </div>
+                <p style="font-size: 0.9rem; color: #6b7280; margin-top: 0.5rem;">All while maintaining complete privacy and local processing.</p>
             </div>
         </div>
 
         <div class="privacy">
             <strong>🛡️ Your Data, Your Control:</strong> We use zero-knowledge encryption. 
-            Even we can't see your health information.
+            Even we can't see your health information. You own your data completely.
         </div>
 
         <button class="cta">Coming Soon - Join Waitlist</button>
