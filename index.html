@@ -12,23 +12,34 @@
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
         }
         .container { 
-            max-width: 900px; padding: 2rem; background: white; border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; margin: 1rem;
+            max-width: 1200px; width: 95%; padding: 1.5rem; background: white; border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; margin: 1rem auto;
         }
-        h1 { font-size: 3rem; margin-bottom: 1rem; color: #4f46e5; }
-        .emoji { font-size: 4rem; margin-bottom: 1rem; }
-        .subtitle { font-size: 1.5rem; color: #6b7280; margin-bottom: 2rem; }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .feature { padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 4px solid #4f46e5; text-align: left; }
-        .feature h3 { color: #4f46e5; margin-bottom: 0.5rem; font-size: 1.2rem; }
-        .feature p { margin-bottom: 0.8rem; }
-        .feature .highlight { background: #fef3cd; padding: 0.5rem; border-radius: 6px; font-size: 0.9rem; color: #92400e; margin-top: 0.5rem; }
-        .roadmap { background: #f0f9ff; padding: 1rem; border-radius: 8px; margin: 0.5rem 0; }
-        .roadmap-item { display: flex; align-items: center; margin: 0.5rem 0; font-size: 0.9rem; }
-        .roadmap-item span { margin-right: 0.5rem; }
-        .cta { background: #4f46e5; color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 2rem; }
+        h1 { font-size: clamp(2rem, 4vw, 2.5rem); margin-bottom: 0.5rem; color: #4f46e5; }
+        .emoji { font-size: clamp(2.5rem, 5vw, 3rem); margin-bottom: 0.5rem; }
+        .subtitle { font-size: clamp(1rem, 2.5vw, 1.2rem); color: #6b7280; margin-bottom: 1.5rem; }
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0; }
+        .feature { padding: 1rem; background: #f8fafc; border-radius: 12px; border-left: 4px solid #4f46e5; text-align: left; height: fit-content; }
+        .feature h3 { color: #4f46e5; margin-bottom: 0.5rem; font-size: clamp(0.9rem, 2vw, 1rem); }
+        .feature p { margin-bottom: 0.5rem; font-size: clamp(0.8rem, 1.5vw, 0.9rem); line-height: 1.4; }
+        .feature .highlight { background: #fef3cd; padding: 0.4rem; border-radius: 6px; font-size: clamp(0.7rem, 1.3vw, 0.8rem); color: #92400e; margin-top: 0.3rem; }
+        .roadmap { background: #f0f9ff; padding: 0.6rem; border-radius: 8px; margin: 0.3rem 0; }
+        .roadmap-item { display: flex; align-items: center; margin: 0.3rem 0; font-size: clamp(0.7rem, 1.3vw, 0.8rem); }
+        .roadmap-item span { margin-right: 0.4rem; }
+        .cta { background: #4f46e5; color: white; padding: 0.8rem 1.5rem; border: none; border-radius: 8px; font-size: clamp(0.9rem, 2vw, 1rem); cursor: pointer; margin-top: 1rem; }
         .cta:hover { background: #4338ca; }
-        .privacy { background: #ecfdf5; padding: 1rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #10b981; }
+        .privacy { background: #ecfdf5; padding: 0.8rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #10b981; font-size: clamp(0.8rem, 1.5vw, 0.9rem); }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .features { grid-template-columns: 1fr; gap: 0.8rem; }
+            .container { width: 98%; padding: 1rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .features { gap: 0.6rem; }
+            .feature { padding: 0.8rem; }
+        }
     </style>
 </head>
 <body>
