@@ -420,3 +420,43 @@ async function verifySessionToken(token, userId, env) {
   // For now, basic validation
   return token && userId && token.length === 64;
 }
+
+
+// Add this to your existing worker.js routes
+if (url.pathname === '/auth/google/callback' && request.method === 'POST') {
+    const { code, redirect_uri } = await request.json();
+    
+    // Exchange code for tokens
+    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            client_id: env.GOOGLE_CLIENT_ID,
+            client_secret: env.GOOGLE_CLIENT_SECRET,
+            code,
+            grant_type: 'authorization_code',
+            redirect_uri
+        })
+    });
+    
+    const tokens = await tokenResponse.json();
+    
+    // Get user info
+    const userResponse = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${tokens.access_token}`);
+    const user = await userResponse.json();
+    
+    // Generate session token and return
+    const sessionToken = generateToken();
+    
+    return new Response(JSON.stringify({
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            picture: user.picture
+        },
+        token: sessionToken
+    }), {
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+}
