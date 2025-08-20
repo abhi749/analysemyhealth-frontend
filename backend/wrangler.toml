@@ -1,0 +1,70 @@
+# Cloudflare Wrangler Configuration for HealthAI
+# This configures your Workers, R2 storage, and D1 database
+
+name = "healthai-backend"
+main = "worker.js"
+compatibility_date = "2024-01-15"
+compatibility_flags = ["nodejs_compat"]
+
+# Worker configuration
+[env.production]
+name = "healthai-backend"
+
+[env.staging]
+name = "healthai-backend-staging"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "healthai-database"
+database_id = "your-d1-database-id" # Replace with actual D1 database ID
+
+# R2 Storage binding for encrypted health documents
+[[r2_buckets]]
+binding = "HEALTH_DOCUMENTS"
+bucket_name = "healthai-documents"
+preview_bucket_name = "healthai-documents-preview"
+
+# KV namespace for caching (optional)
+[[kv_namespaces]]
+binding = "CACHE"
+id = "your-kv-namespace-id" # Replace with actual KV namespace ID
+preview_id = "your-preview-kv-namespace-id"
+
+# Environment variables (set these in Cloudflare dashboard)
+[vars]
+ENVIRONMENT = "production"
+APP_NAME = "HealthAI"
+API_VERSION = "v1"
+MAX_FILE_SIZE = "26214400" # 25MB in bytes
+MAX_DOCUMENTS_PER_USER = "500"
+SESSION_TIMEOUT_HOURS = "24"
+
+# Secrets (set these using: wrangler secret put SECRET_NAME)
+# These should be set via CLI, not in this file
+# wrangler secret put GOOGLE_OAUTH_CLIENT_SECRET
+# wrangler secret put JWT_SECRET_KEY
+# wrangler secret put MEDLINEPLUS_API_KEY (if required)
+
+# Development configuration
+[env.development]
+name = "healthai-backend-dev"
+vars = { ENVIRONMENT = "development", DEBUG = "true" }
+
+# Worker limits and performance
+[limits]
+cpu_ms = 50000 # 50 seconds CPU time limit
+
+# Cron triggers for maintenance tasks
+[[triggers.crons]]
+cron = "0 2 * * *" # Daily at 2 AM UTC
+handler = "cleanup"
+
+[[triggers.crons]]
+cron = "0 */6 * * *" # Every 6 hours
+handler = "health-check"
+
+# Analytics and observability
+[observability]
+enabled = true
+head_sampling_rate = 0.01 # Sample 1% of requests
