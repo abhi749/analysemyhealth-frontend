@@ -109,10 +109,6 @@
             transform: translateY(-2px);
         }
 
-        .google-btn:active {
-            transform: translateY(0);
-        }
-
         .google-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -147,13 +143,21 @@
             100% { transform: rotate(360deg); }
         }
 
-        .error-message {
-            background: #ffe6e6;
-            color: #d63031;
+        .message {
             padding: 15px;
             border-radius: 10px;
             margin-top: 20px;
             display: none;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #d63031;
+        }
+
+        .success {
+            background: #e6ffe6;
+            color: #2d5a2d;
         }
 
         .dashboard {
@@ -222,33 +226,6 @@
             color: #667eea;
             margin-bottom: 15px;
         }
-
-        .nav-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .nav-tab {
-            padding: 15px 20px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .nav-tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -279,22 +256,40 @@
                 </div>
             </div>
 
-            <button id="googleSignInBtn" class="google-btn">
+            <div id="g_id_onload"
+                 data-client_id="674371229764-dbvid7j0lk44267igqkk87tg1onf4m2r.apps.googleusercontent.com"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-callback="handleCredentialResponse"
+                 data-auto_prompt="false">
+            </div>
+
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left">
+            </div>
+
+            <!-- Fallback button if Google button doesn't load -->
+            <button id="fallbackBtn" class="google-btn" style="display: none;">
                 <svg class="google-icon" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                <span id="btnText">Continue with Google</span>
+                Continue with Google
             </button>
 
             <div id="loading" class="loading">
                 <div class="spinner"></div>
-                <span>Connecting to Google...</span>
+                <span>Signing you in...</span>
             </div>
 
-            <div id="errorMessage" class="error-message"></div>
+            <div id="message" class="message"></div>
         </div>
 
         <!-- Dashboard Screen -->
@@ -308,206 +303,78 @@
                 <button id="logoutBtn" class="logout-btn">Sign Out</button>
             </div>
 
-            <div class="nav-tabs">
-                <div class="nav-tab active" data-tab="upload">Upload Documents</div>
-                <div class="nav-tab" data-tab="analysis">AI Analysis</div>
-                <div class="nav-tab" data-tab="trends">Health Trends</div>
-            </div>
-
-            <div id="uploadTab" class="tab-content active">
-                <div class="dashboard-content">
-                    <h2 style="color: #333; margin-bottom: 20px;">Upload Health Documents</h2>
-                    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                        <div class="upload-icon">📄</div>
-                        <h3 style="color: #667eea; margin-bottom: 10px;">Drop files here or click to upload</h3>
-                        <p style="color: #666;">Supported: PDF lab reports, body composition scans</p>
-                        <p style="color: #999; font-size: 0.9rem; margin-top: 10px;">All files are encrypted before upload</p>
-                    </div>
-                    <input type="file" id="fileInput" accept=".pdf" multiple style="display: none;">
+            <div class="dashboard-content">
+                <h2 style="color: #333; margin-bottom: 20px;">🎉 Welcome to HealthAI!</h2>
+                <p style="color: #666; margin-bottom: 20px;">Your secure health analysis platform is ready.</p>
+                
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📄</div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Upload Health Documents</h3>
+                    <p style="color: #666;">Drop PDF files here or click to upload</p>
+                    <p style="color: #999; font-size: 0.9rem; margin-top: 10px;">All files are encrypted before upload</p>
                 </div>
-            </div>
+                <input type="file" id="fileInput" accept=".pdf" multiple style="display: none;">
 
-            <div id="analysisTab" class="tab-content">
-                <div class="dashboard-content">
-                    <h2 style="color: #333; margin-bottom: 20px;">AI Health Analysis</h2>
-                    <p style="color: #666; margin-bottom: 20px;">Upload your first health document to see AI-powered insights here.</p>
-                    <div style="background: #e8f4f8; padding: 20px; border-radius: 10px;">
-                        <h3 style="color: #2d5aa0; margin-bottom: 10px;">🔮 Coming Soon: Local AI Analysis</h3>
-                        <p style="color: #4a6fa5;">Advanced AI will run locally on your device to analyze health trends, identify patterns, and provide personalized recommendations.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="trendsTab" class="tab-content">
-                <div class="dashboard-content">
-                    <h2 style="color: #333; margin-bottom: 20px;">Health Trends</h2>
-                    <p style="color: #666; margin-bottom: 20px;">Track your health metrics over time with interactive charts.</p>
-                    <div style="background: #f0f8e8; padding: 20px; border-radius: 10px;">
-                        <h3 style="color: #2d5a20; margin-bottom: 10px;">📊 Coming Soon: Trend Analysis</h3>
-                        <p style="color: #4a5a4a;">Visualize your health journey with comprehensive charts showing improvements, changes, and patterns across all your health data.</p>
-                    </div>
+                <div style="background: #e8f4f8; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <h3 style="color: #2d5aa0; margin-bottom: 10px;">🚀 Phase 3: OAuth Authentication Complete!</h3>
+                    <p style="color: #4a6fa5;">Next up: Local AI integration for health document analysis.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Load Google Identity Services -->
-    <script src="https://accounts.google.com/gsi/client" async defer onload="initializeApp()"></script>
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <script>
-        // Configuration
-        const CONFIG = {
-            API_BASE_URL: 'https://analysemyhealth-backend.abhishekgaur749.workers.dev',
-            GOOGLE_CLIENT_ID: '674371229764-dbvid7j0lk44267igqkk87tg1onf4m2r.apps.googleusercontent.com',
-            APP_NAME: 'HealthAI',
-            VERSION: '1.0.0'
+        // App configuration
+        const APP_CONFIG = {
+            API_URL: 'https://analysemyhealth-backend.abhishekgaur749.workers.dev',
+            CLIENT_ID: '674371229764-dbvid7j0lk44267igqkk87tg1onf4m2r.apps.googleusercontent.com'
         };
 
-        // Global state
         let currentUser = null;
-        let isGoogleLoaded = false;
 
-        // Initialize app when Google library loads
-        function initializeApp() {
-            console.log('Google Identity Services loaded');
-            isGoogleLoaded = true;
-            initializeGoogleAuth();
-            setupEventListeners();
-            checkExistingSession();
-        }
-
-        function initializeGoogleAuth() {
-            if (!isGoogleLoaded || typeof google === 'undefined') {
-                console.log('Google not ready yet...');
-                setTimeout(initializeGoogleAuth, 500);
-                return;
-            }
-
-            try {
-                google.accounts.id.initialize({
-                    client_id: CONFIG.GOOGLE_CLIENT_ID,
-                    callback: handleGoogleResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: false
-                });
-                
-                console.log('Google OAuth initialized successfully');
-                
-                // Enable the sign-in button
-                const signInBtn = document.getElementById('googleSignInBtn');
-                if (signInBtn) {
-                    signInBtn.disabled = false;
-                    signInBtn.style.opacity = '1';
-                }
-            } catch (error) {
-                console.error('Error initializing Google OAuth:', error);
-                showError('Failed to initialize Google authentication. Please refresh the page.');
-            }
-        }
-
-        function setupEventListeners() {
-            // Google Sign In button
-            const signInBtn = document.getElementById('googleSignInBtn');
-            if (signInBtn) {
-                signInBtn.addEventListener('click', handleSignInClick);
-            }
-
-            // Logout button
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', handleLogout);
-            }
-
-            // Tab navigation
-            const tabButtons = document.querySelectorAll('.nav-tab');
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => switchTab(button.dataset.tab));
-            });
-
-            // File upload
-            const fileInput = document.getElementById('fileInput');
-            if (fileInput) {
-                fileInput.addEventListener('change', handleFileUpload);
-            }
-        }
-
-        function handleSignInClick() {
-            if (!isGoogleLoaded || typeof google === 'undefined') {
-                showError('Google authentication is still loading. Please wait a moment and try again.');
-                return;
-            }
-
-            const signInBtn = document.getElementById('googleSignInBtn');
-            signInBtn.disabled = true;
-            showLoading(true);
-            
-            try {
-                google.accounts.id.prompt((notification) => {
-                    console.log('Google prompt notification:', notification);
-                    
-                    if (notification.isNotDisplayed()) {
-                        showLoading(false);
-                        signInBtn.disabled = false;
-                        showError('Google sign-in popup was blocked. Please allow popups and try again.');
-                    } else if (notification.isSkippedMoment()) {
-                        showLoading(false);
-                        signInBtn.disabled = false;
-                        showError('Google sign-in was cancelled.');
-                    }
-                });
-            } catch (error) {
-                console.error('Error starting Google sign-in:', error);
-                showLoading(false);
-                signInBtn.disabled = false;
-                showError('Failed to start Google sign-in. Please try again.');
-            }
-        }
-
-        async function handleGoogleResponse(response) {
-            console.log('Google response received');
+        // Google credential response handler
+        async function handleCredentialResponse(response) {
+            console.log('Google authentication successful');
             showLoading(true);
 
             try {
-                // Send the credential to our backend for verification
-                const backendResponse = await fetch(`${CONFIG.API_BASE_URL}/auth/google`, {
+                // Send credential to backend
+                const result = await fetch(`${APP_CONFIG.API_URL}/auth/google`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        credential: response.credential
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ credential: response.credential })
                 });
 
-                if (!backendResponse.ok) {
-                    const errorText = await backendResponse.text();
-                    throw new Error(`Authentication failed: ${backendResponse.status} - ${errorText}`);
+                if (!result.ok) {
+                    throw new Error(`Authentication failed: ${result.status}`);
                 }
 
-                const userData = await backendResponse.json();
-                console.log('Backend authentication successful');
-
-                // Store user data and show dashboard
+                const userData = await result.json();
+                
+                // Store user data
                 currentUser = userData.user;
                 localStorage.setItem('healthai_user', JSON.stringify(currentUser));
                 localStorage.setItem('healthai_token', userData.token);
                 
-                showDashboard();
+                // Show dashboard
+                displayDashboard();
+                showMessage('Authentication successful! Welcome to HealthAI.', 'success');
 
             } catch (error) {
-                console.error('Authentication error:', error);
-                showError(`Authentication failed: ${error.message}`);
+                console.error('Auth error:', error);
+                showMessage('Authentication failed. Please try again.', 'error');
             } finally {
                 showLoading(false);
-                document.getElementById('googleSignInBtn').disabled = false;
             }
         }
 
-        function showDashboard() {
+        function displayDashboard() {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
 
-            // Update user info
             if (currentUser) {
                 document.getElementById('userName').textContent = currentUser.name || 'User';
                 document.getElementById('userEmail').textContent = currentUser.email || '';
@@ -517,159 +384,110 @@
             }
         }
 
-        function handleLogout() {
-            // Clear stored data
-            localStorage.removeItem('healthai_user');
-            localStorage.removeItem('healthai_token');
-            currentUser = null;
-
-            // Sign out from Google
-            if (isGoogleLoaded && typeof google !== 'undefined') {
-                google.accounts.id.disableAutoSelect();
-            }
-
-            // Show login screen
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'block';
+        function showLoading(show) {
+            const loading = document.getElementById('loading');
+            loading.style.display = show ? 'flex' : 'none';
         }
 
-        function switchTab(tabName) {
-            // Update tab buttons
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(`${tabName}Tab`).classList.add('active');
-        }
-
-        async function handleFileUpload(event) {
-            const files = event.target.files;
-            if (files.length === 0) return;
-
-            const file = files[0];
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
             
-            // Validate file type
-            if (file.type !== 'application/pdf') {
-                showError('Please upload only PDF files.');
-                return;
-            }
-
-            // Validate file size (25MB limit)
-            if (file.size > 25 * 1024 * 1024) {
-                showError('File size must be less than 25MB.');
-                return;
-            }
-
-            showLoading(true);
-
-            try {
-                // Create form data for upload
-                const formData = new FormData();
-                formData.append('document', file);
-                formData.append('type', 'health_report');
-
-                const token = localStorage.getItem('healthai_token');
-                const response = await fetch(`${CONFIG.API_BASE_URL}/documents/upload`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`Upload failed: ${response.status} - ${errorText}`);
-                }
-
-                const result = await response.json();
-                console.log('File uploaded successfully:', result);
-                
-                // Show success message
-                showSuccess('File uploaded successfully! AI analysis will be available soon.');
-
-            } catch (error) {
-                console.error('Upload error:', error);
-                showError(`Failed to upload file: ${error.message}`);
-            } finally {
-                showLoading(false);
-                event.target.value = ''; // Reset file input
-            }
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 5000);
         }
 
-        function checkExistingSession() {
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for existing session
             const savedUser = localStorage.getItem('healthai_user');
             const savedToken = localStorage.getItem('healthai_token');
             
             if (savedUser && savedToken) {
                 try {
                     currentUser = JSON.parse(savedUser);
-                    showDashboard();
+                    displayDashboard();
                 } catch (error) {
-                    console.error('Error parsing saved user data:', error);
-                    localStorage.removeItem('healthai_user');
-                    localStorage.removeItem('healthai_token');
+                    localStorage.clear();
                 }
             }
-        }
 
-        function showLoading(show) {
-            const loading = document.getElementById('loading');
-            const button = document.getElementById('googleSignInBtn');
-            const btnText = document.getElementById('btnText');
-            
-            if (loading) loading.style.display = show ? 'flex' : 'none';
-            if (button) button.style.opacity = show ? '0.6' : '1';
-            if (btnText) btnText.textContent = show ? 'Connecting...' : 'Continue with Google';
-        }
+            // Setup logout
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.clear();
+                currentUser = null;
+                document.getElementById('dashboard').style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'block';
+                
+                // Sign out from Google
+                if (typeof google !== 'undefined' && google.accounts) {
+                    google.accounts.id.disableAutoSelect();
+                }
+            });
 
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            if (errorDiv) {
-                errorDiv.textContent = message;
-                errorDiv.style.display = 'block';
-                setTimeout(() => {
-                    errorDiv.style.display = 'none';
-                }, 10000);
-            }
-            console.error('HealthAI Error:', message);
-        }
+            // Setup file upload
+            document.getElementById('fileInput').addEventListener('change', async function(event) {
+                const files = event.target.files;
+                if (files.length === 0) return;
 
-        function showSuccess(message) {
-            // Create a temporary success message
-            const successDiv = document.createElement('div');
-            successDiv.style.cssText = `
-                background: #e6ffe6;
-                color: #2d5a2d;
-                padding: 15px;
-                border-radius: 10px;
-                margin-top: 20px;
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 1000;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-                max-width: 300px;
-            `;
-            successDiv.textContent = message;
-            document.body.appendChild(successDiv);
+                const file = files[0];
+                if (file.type !== 'application/pdf') {
+                    showMessage('Please upload only PDF files.', 'error');
+                    return;
+                }
 
+                if (file.size > 25 * 1024 * 1024) {
+                    showMessage('File size must be less than 25MB.', 'error');
+                    return;
+                }
+
+                showLoading(true);
+
+                try {
+                    const formData = new FormData();
+                    formData.append('document', file);
+                    formData.append('type', 'health_report');
+
+                    const token = localStorage.getItem('healthai_token');
+                    const response = await fetch(`${APP_CONFIG.API_URL}/documents/upload`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${token}` },
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Upload failed: ${response.status}`);
+                    }
+
+                    showMessage('File uploaded successfully!', 'success');
+                } catch (error) {
+                    showMessage('Upload failed. Please try again.', 'error');
+                } finally {
+                    showLoading(false);
+                    event.target.value = '';
+                }
+            });
+
+            // Show fallback button if Google button doesn't appear
             setTimeout(() => {
-                if (document.body.contains(successDiv)) {
-                    document.body.removeChild(successDiv);
+                const googleBtn = document.querySelector('.g_id_signin');
+                if (!googleBtn || googleBtn.innerHTML.trim() === '') {
+                    document.getElementById('fallbackBtn').style.display = 'flex';
                 }
-            }, 5000);
-        }
+            }, 3000);
+        });
 
-        // Fallback initialization if Google script loads before DOM
-        if (typeof google !== 'undefined') {
-            document.addEventListener('DOMContentLoaded', initializeApp);
-        }
+        // Fallback button handler
+        document.getElementById('fallbackBtn').addEventListener('click', function() {
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.prompt();
+            } else {
+                showMessage('Google authentication is loading. Please wait and try again.', 'error');
+            }
+        });
     </script>
 </body>
 </html>
