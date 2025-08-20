@@ -85,73 +85,39 @@
             line-height: 1.4;
         }
 
-        .auth-container {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9ff;
-            border-radius: 10px;
-        }
-
         .google-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
             width: 100%;
             padding: 15px 20px;
-            background: white;
-            border: 2px solid #4285f4;
+            background: #4285f4;
+            color: white;
+            text-decoration: none;
             border-radius: 10px;
             font-size: 1rem;
             font-weight: 500;
-            color: #4285f4;
-            cursor: pointer;
+            margin-top: 30px;
             transition: all 0.3s ease;
-            text-decoration: none;
+            border: none;
+            cursor: pointer;
         }
 
         .google-btn:hover {
-            background: #4285f4;
-            color: white;
+            background: #3367d6;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
         }
 
-        .google-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .google-btn:active {
+            transform: translateY(0);
         }
 
-        .google-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-        }
-
-        .status {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 8px;
+        .auth-note {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
             font-size: 0.9rem;
-            display: none;
-        }
-
-        .status.loading {
-            background: #e3f2fd;
-            color: #1976d2;
-            display: block;
-        }
-
-        .status.error {
-            background: #ffebee;
-            color: #c62828;
-            display: block;
-        }
-
-        .status.success {
-            background: #e8f5e8;
-            color: #2e7d32;
-            display: block;
+            color: #2d5aa0;
         }
 
         .dashboard {
@@ -173,6 +139,13 @@
             height: 50px;
             border-radius: 50%;
             margin-right: 15px;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
 
         .user-details h3 {
@@ -227,6 +200,13 @@
             border-radius: 10px;
             margin-top: 20px;
         }
+
+        .loading {
+            display: none;
+            margin: 20px 0;
+            color: #667eea;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -257,31 +237,28 @@
                 </div>
             </div>
 
-            <div class="auth-container">
-                <h3 style="color: #333; margin-bottom: 15px;">Ready to get started?</h3>
-                
-                <!-- Google Sign-In Button -->
-                <button id="googleAuthBtn" class="google-btn">
-                    <svg class="google-icon" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    Continue with Google
-                </button>
+            <!-- Simple OAuth URL redirect - no JavaScript conflicts -->
+            <a href="https://accounts.google.com/oauth/authorize?client_id=674371229764-dbvid7j0lk44267igqkk87tg1onf4m2r.apps.googleusercontent.com&redirect_uri=https://analysemyhealth.com/auth/callback&response_type=code&scope=openid%20email%20profile&access_type=offline" 
+               class="google-btn">
+                🔐 Continue with Google
+            </a>
 
-                <div id="authStatus" class="status"></div>
+            <div class="auth-note">
+                <strong>Secure Authentication:</strong> You'll be redirected to Google's official sign-in page, then returned to HealthAI with secure access.
+            </div>
+
+            <div id="loading" class="loading">
+                Processing authentication...
             </div>
         </div>
 
         <!-- Dashboard Screen -->
         <div id="dashboard" class="dashboard">
             <div class="user-info">
-                <img id="userAvatar" class="user-avatar" src="" alt="User Avatar">
+                <div id="userAvatar" class="user-avatar">U</div>
                 <div class="user-details">
-                    <h3 id="userName">Loading...</h3>
-                    <p id="userEmail">Loading...</p>
+                    <h3 id="userName">Welcome!</h3>
+                    <p id="userEmail">Successfully authenticated</p>
                 </div>
                 <button id="logoutBtn" class="logout-btn">Sign Out</button>
             </div>
@@ -309,184 +286,104 @@
     </div>
 
     <script>
-        // Configuration
-        const HEALTHAI_CONFIG = {
-            API_ENDPOINT: 'https://analysemyhealth-backend.abhishekgaur749.workers.dev',
-            GOOGLE_CLIENT_ID: '674371229764-dbvid7j0lk44267igqkk87tg1onf4m2r.apps.googleusercontent.com'
-        };
+        // Simple, conflict-free authentication handling
+        
+        // Check URL for auth callback
+        const urlParams = new URLSearchParams(window.location.search);
+        const authCode = urlParams.get('code');
+        const authError = urlParams.get('error');
 
-        // State management
-        let user = null;
-        let isGoogleReady = false;
-
-        // Initialize when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-        });
-
-        function initializeApp() {
-            console.log('HealthAI: Initializing application...');
-            
-            // Check for existing session
-            checkExistingSession();
-            
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Load Google OAuth
-            loadGoogleAuth();
+        // If we have an auth code, process it
+        if (authCode) {
+            document.getElementById('loading').style.display = 'block';
+            processAuthCode(authCode);
+        } else if (authError) {
+            alert('Authentication was cancelled or failed. Please try again.');
         }
 
-        function checkExistingSession() {
-            const savedUser = localStorage.getItem('healthai_user');
-            const savedToken = localStorage.getItem('healthai_token');
-            
-            if (savedUser && savedToken) {
-                try {
-                    user = JSON.parse(savedUser);
-                    showDashboard();
-                    console.log('HealthAI: Restored user session');
-                } catch (error) {
-                    console.log('HealthAI: Invalid session data, clearing...');
-                    localStorage.clear();
-                }
-            }
-        }
-
-        function setupEventListeners() {
-            // Google auth button
-            document.getElementById('googleAuthBtn').addEventListener('click', initiateGoogleAuth);
-            
-            // Logout button
-            document.getElementById('logoutBtn').addEventListener('click', logout);
-            
-            // File upload
-            document.getElementById('fileInput').addEventListener('change', handleFileUpload);
-        }
-
-        function loadGoogleAuth() {
-            // Create script element for Google Identity
-            const script = document.createElement('script');
-            script.src = 'https://accounts.google.com/gsi/client';
-            script.async = true;
-            script.defer = true;
-            script.onload = initializeGoogleAuth;
-            script.onerror = () => {
-                showStatus('Failed to load Google authentication. Please refresh the page.', 'error');
-            };
-            document.head.appendChild(script);
-        }
-
-        function initializeGoogleAuth() {
-            if (typeof google === 'undefined') {
-                showStatus('Google authentication failed to initialize.', 'error');
-                return;
-            }
-
+        // Check for existing session
+        const savedUser = localStorage.getItem('healthai_user_simple');
+        const savedToken = localStorage.getItem('healthai_token_simple');
+        
+        if (savedUser && savedToken && !authCode) {
             try {
-                google.accounts.id.initialize({
-                    client_id: HEALTHAI_CONFIG.GOOGLE_CLIENT_ID,
-                    callback: handleGoogleCredential,
-                    auto_select: false,
-                    cancel_on_tap_outside: false
-                });
-                
-                isGoogleReady = true;
-                console.log('HealthAI: Google OAuth ready');
-                
+                const user = JSON.parse(savedUser);
+                showDashboard(user);
             } catch (error) {
-                console.error('HealthAI: Google init error:', error);
-                showStatus('Failed to initialize Google authentication.', 'error');
+                localStorage.removeItem('healthai_user_simple');
+                localStorage.removeItem('healthai_token_simple');
             }
         }
 
-        function initiateGoogleAuth() {
-            if (!isGoogleReady) {
-                showStatus('Google authentication is still loading. Please wait...', 'loading');
-                return;
-            }
-
-            showStatus('Opening Google sign-in...', 'loading');
-            
+        async function processAuthCode(code) {
             try {
-                google.accounts.id.prompt((notification) => {
-                    if (notification.isNotDisplayed()) {
-                        showStatus('Google sign-in was blocked. Please allow popups.', 'error');
-                    } else if (notification.isSkippedMoment()) {
-                        showStatus('Google sign-in was cancelled.', 'error');
-                    }
-                });
-            } catch (error) {
-                console.error('HealthAI: Auth error:', error);
-                showStatus('Failed to start Google sign-in.', 'error');
-            }
-        }
-
-        async function handleGoogleCredential(response) {
-            console.log('HealthAI: Google credential received');
-            showStatus('Verifying with HealthAI...', 'loading');
-
-            try {
-                const authResponse = await fetch(`${HEALTHAI_CONFIG.API_ENDPOINT}/auth/google`, {
+                const response = await fetch('https://analysemyhealth-backend.abhishekgaur749.workers.dev/auth/google/callback', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ credential: response.credential })
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        redirect_uri: 'https://analysemyhealth.com/auth/callback'
+                    })
                 });
 
-                if (!authResponse.ok) {
-                    throw new Error(`Authentication failed: ${authResponse.status}`);
+                if (!response.ok) {
+                    throw new Error('Authentication failed');
                 }
 
-                const userData = await authResponse.json();
+                const userData = await response.json();
                 
                 // Store user data
-                user = userData.user;
-                localStorage.setItem('healthai_user', JSON.stringify(user));
-                localStorage.setItem('healthai_token', userData.token);
+                localStorage.setItem('healthai_user_simple', JSON.stringify(userData.user));
+                localStorage.setItem('healthai_token_simple', userData.token);
                 
-                showStatus('Authentication successful!', 'success');
+                // Clean URL
+                window.history.replaceState({}, document.title, "/");
                 
-                setTimeout(() => {
-                    showDashboard();
-                }, 1000);
+                // Show dashboard
+                showDashboard(userData.user);
 
             } catch (error) {
-                console.error('HealthAI: Backend auth error:', error);
-                showStatus('Authentication failed. Please try again.', 'error');
+                console.error('Auth processing error:', error);
+                alert('Authentication failed. Please try signing in again.');
+                window.history.replaceState({}, document.title, "/");
+                document.getElementById('loading').style.display = 'none';
             }
         }
 
-        function showDashboard() {
+        function showDashboard(user) {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
 
             if (user) {
                 document.getElementById('userName').textContent = user.name || 'User';
                 document.getElementById('userEmail').textContent = user.email || '';
+                
+                // Set avatar
+                const avatar = document.getElementById('userAvatar');
                 if (user.picture) {
-                    document.getElementById('userAvatar').src = user.picture;
+                    avatar.innerHTML = `<img src="${user.picture}" style="width: 100%; height: 100%; border-radius: 50%;" alt="Avatar">`;
+                } else {
+                    avatar.textContent = (user.name || 'U').charAt(0).toUpperCase();
                 }
             }
         }
 
-        function logout() {
-            // Clear data
-            localStorage.clear();
-            user = null;
-
-            // Google sign out
-            if (isGoogleReady && typeof google !== 'undefined') {
-                google.accounts.id.disableAutoSelect();
-            }
-
-            // Show login
+        // Logout handler
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('healthai_user_simple');
+            localStorage.removeItem('healthai_token_simple');
+            
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'block';
             
-            showStatus('Signed out successfully.', 'success');
-        }
+            // Optional: Sign out from Google
+            window.open('https://accounts.google.com/logout', '_blank', 'width=1,height=1');
+        });
 
-        async function handleFileUpload(event) {
+        // File upload handler
+        document.getElementById('fileInput').addEventListener('change', async function(event) {
             const files = event.target.files;
             if (!files.length) return;
 
@@ -507,15 +404,15 @@
                 formData.append('document', file);
                 formData.append('type', 'health_report');
 
-                const token = localStorage.getItem('healthai_token');
-                const response = await fetch(`${HEALTHAI_CONFIG.API_ENDPOINT}/documents/upload`, {
+                const token = localStorage.getItem('healthai_token_simple');
+                const response = await fetch('https://analysemyhealth-backend.abhishekgaur749.workers.dev/documents/upload', {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData
                 });
 
                 if (response.ok) {
-                    alert('File uploaded successfully! 🎉');
+                    alert('File uploaded successfully! 🎉\n\nYour health document has been securely encrypted and stored. AI analysis will be available soon.');
                 } else {
                     throw new Error('Upload failed');
                 }
@@ -524,19 +421,7 @@
             } finally {
                 event.target.value = '';
             }
-        }
-
-        function showStatus(message, type) {
-            const status = document.getElementById('authStatus');
-            status.textContent = message;
-            status.className = `status ${type}`;
-            
-            if (type === 'success' || type === 'error') {
-                setTimeout(() => {
-                    status.style.display = 'none';
-                }, 3000);
-            }
-        }
+        });
     </script>
 </body>
 </html>
