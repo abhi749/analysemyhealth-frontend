@@ -4,25 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthAI - Privacy-First Health Analysis</title>
-    <meta name="description" content="Secure health document analysis with complete privacy. Your data never leaves your device unencrypted.">
     
-    <!-- Google OAuth -->
+    <!-- Google OAuth Script -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
-        /* Production CSS - Optimized and Complete */
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --error-color: #ef4444;
-            --text-primary: #333;
-            --text-secondary: #666;
-            --border-color: #e2e8f0;
-            --bg-glass: rgba(255, 255, 255, 0.95);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -30,286 +16,127 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary-gradient);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: var(--text-primary);
-            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            margin-bottom: 40px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: white;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid white;
-        }
-
-        /* Glass morphism cards */
-        .glass-card {
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
+            background: white;
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        /* Authentication Screen */
-        .auth-card {
             max-width: 500px;
-            margin: 0 auto;
+            width: 90%;
             text-align: center;
         }
 
-        .auth-title {
-            font-size: 28px;
-            font-weight: 700;
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
             margin-bottom: 10px;
-            color: var(--text-primary);
         }
 
-        .auth-subtitle {
-            color: var(--text-secondary);
+        .beta-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            color: #666;
             margin-bottom: 30px;
-            font-size: 16px;
+            font-size: 1.1rem;
             line-height: 1.5;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            width: 30px;
+        }
+
+        .feature-text h3 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .feature-text p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
 
         .google-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
             width: 100%;
             padding: 15px 20px;
             background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 30px;
+            margin-top: 30px;
+            text-decoration: none;
         }
 
         .google-btn:hover {
-            border-color: #4285f4;
-            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.2);
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
             transform: translateY(-2px);
         }
 
-        .privacy-note {
-            background: #f8f9ff;
-            border: 1px solid #e8eaff;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: left;
+        .google-btn:active {
+            transform: translateY(0);
         }
 
-        .privacy-note h3 {
-            color: #4f46e5;
-            margin-bottom: 10px;
-            font-size: 16px;
+        .google-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
         }
 
-        /* Buttons */
-        .btn-primary {
-            background: var(--secondary-gradient);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--text-secondary);
-            border: 2px solid var(--border-color);
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            border-color: #cbd5e1;
-            transform: translateY(-2px);
-        }
-
-        /* Upload Interface */
-        .upload-zone {
-            border: 3px dashed #cbd5e1;
-            border-radius: 16px;
-            padding: 60px 40px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            background: #f8fafc;
-            margin-bottom: 30px;
-        }
-
-        .upload-zone:hover, .upload-zone.drag-over {
-            border-color: #4f46e5;
-            background: #f0f4ff;
-            transform: translateY(-2px);
-        }
-
-        .upload-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        /* Progress and Status */
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--border-color);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--secondary-gradient);
-            transition: width 0.3s ease;
-            border-radius: 4px;
-        }
-
-        .status-indicator {
-            display: inline-flex;
+        .loading {
+            display: none;
             align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .status-success {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .status-warning {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-error {
-            background: #fecaca;
-            color: #991b1b;
-        }
-
-        .status-processing {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        /* Document Grid */
-        .document-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            justify-content: center;
             margin-top: 20px;
         }
 
-        .document-card {
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .document-card:hover {
-            border-color: #4f46e5;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.1);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .glass-card {
-                padding: 25px;
-                margin: 20px auto;
-            }
-            
-            .document-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-
-        /* Loading States */
-        .loading {
-            display: inline-block;
+        .spinner {
             width: 20px;
             height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #4f46e5;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin-right: 10px;
         }
 
         @keyframes spin {
@@ -317,237 +144,204 @@
             100% { transform: rotate(360deg); }
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* Toast Notifications */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
+        .error-message {
+            background: #ffe6e6;
+            color: #d63031;
+            padding: 15px;
             border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .dashboard {
+            display: none;
+            text-align: left;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .user-details h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
             color: white;
-            font-weight: 600;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: auto;
         }
 
-        .toast.success {
-            background: var(--success-color);
+        .dashboard-content {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
         }
 
-        .toast.error {
-            background: var(--error-color);
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .toast.warning {
-            background: var(--warning-color);
+        .upload-area:hover {
+            background: #f0f3ff;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .nav-tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .nav-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="header">
+        <!-- Login Screen -->
+        <div id="loginScreen">
             <div class="logo">
-                🩺 HealthAI
-                <span style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 4px;">BETA</span>
+                HealthAI
+                <span class="beta-badge">BETA</span>
             </div>
-            <div class="user-info" id="userInfo" style="display: none;">
-                <img id="userAvatar" class="user-avatar" src="" alt="User">
-                <span id="userName"></span>
-                <button class="btn-secondary" onclick="logout()" style="padding: 8px 16px; font-size: 14px;">
-                    Logout
-                </button>
+            <p class="tagline">
+                Secure health analysis with complete privacy. Your data is encrypted locally and never shared.
+            </p>
+
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-text">
+                    <h3>Zero-Knowledge Privacy</h3>
+                    <p>Your health data is encrypted on your device before uploading. We cannot see or access your personal health information - only you can decrypt it.</p>
+                </div>
             </div>
+
+            <div class="feature">
+                <div class="feature-icon">🧠</div>
+                <div class="feature-text">
+                    <h3>How Your Privacy is Protected</h3>
+                    <p>After signing in, you'll set up security questions that create your personal encryption key. This ensures only you can decrypt and view your health data.</p>
+                </div>
+            </div>
+
+            <button id="googleSignInBtn" class="google-btn">
+                <svg class="google-icon" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+            </button>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <span>Connecting to Google...</span>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
         </div>
 
-        <!-- Authentication Screen -->
-        <div id="authScreen">
-            <div class="glass-card auth-card">
-                <h1 class="auth-title">Welcome to HealthAI</h1>
-                <p class="auth-subtitle">
-                    Secure health analysis with complete privacy. Your data is encrypted locally and never shared.
-                </p>
-
-                <div class="privacy-note">
-                    <h3>🔒 Zero-Knowledge Privacy</h3>
-                    <p>
-                        Your health data is encrypted on your device before uploading. 
-                        We cannot see or access your personal health information - only you can decrypt it.
-                    </p>
+        <!-- Dashboard Screen -->
+        <div id="dashboard" class="dashboard">
+            <div class="user-info">
+                <img id="userAvatar" class="user-avatar" src="" alt="User Avatar">
+                <div class="user-details">
+                    <h3 id="userName">Loading...</h3>
+                    <p id="userEmail">Loading...</p>
                 </div>
-
-                <button class="google-btn" onclick="signInWithGoogle()" id="googleSignInBtn">
-                    <svg width="20" height="20" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    <span id="signInText">Continue with Google</span>
-                    <span id="signInLoading" class="hidden">
-                        <span class="loading"></span> Signing in...
-                    </span>
-                </button>
-
-                <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 15px; text-align: left;">
-                    <h4 style="color: #0369a1; font-size: 14px; font-weight: 600; margin-bottom: 5px;">
-                        🛡️ How Your Privacy is Protected
-                    </h4>
-                    <p style="color: #0c4a6e; font-size: 13px; line-height: 1.4;">
-                        After signing in, you'll set up security questions that create your personal encryption key. 
-                        This ensures only you can decrypt and view your health data.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Security Questions Setup -->
-        <div id="securitySetup" class="hidden">
-            <div class="glass-card" style="max-width: 600px; margin: 0 auto;">
-                <h1 class="auth-title">Secure Your Health Data</h1>
-                <p class="auth-subtitle">
-                    These security questions create your personal encryption key. Choose answers you'll remember - 
-                    they're the only way to access your health data.
-                </p>
-
-                <form id="securityForm">
-                    <div style="margin-bottom: 25px; text-align: left;">
-                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">
-                            Security Question 1:
-                        </label>
-                        <select id="question1" required style="width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px;">
-                            <option value="">Select a question...</option>
-                            <option value="pet">What was the name of your first pet?</option>
-                            <option value="school">What elementary school did you attend?</option>
-                            <option value="city">In what city were you born?</option>
-                            <option value="friend">What is the first name of your best friend from childhood?</option>
-                            <option value="street">What street did you grow up on?</option>
-                        </select>
-                        <input type="text" id="answer1" placeholder="Your answer" required style="width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; margin-top: 8px;">
-                    </div>
-
-                    <div style="margin-bottom: 25px; text-align: left;">
-                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">
-                            Security Question 2:
-                        </label>
-                        <select id="question2" required style="width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px;">
-                            <option value="">Select a question...</option>
-                            <option value="book">What is your favorite book?</option>
-                            <option value="teacher">What was your favorite teacher's last name?</option>
-                            <option value="car">What was the make of your first car?</option>
-                            <option value="vacation">Where did you go on your first vacation?</option>
-                            <option value="job">What was your first job?</option>
-                        </select>
-                        <input type="text" id="answer2" placeholder="Your answer" required style="width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; margin-top: 8px;">
-                    </div>
-
-                    <div style="margin-bottom: 25px; text-align: left;">
-                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">
-                            Security Question 3:
-                        </label>
-                        <select id="question3" required style="width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px;">
-                            <option value="">Select a question...</option>
-                            <option value="mother">What is your mother's maiden name?</option>
-                            <option value="food">What is your favorite food?</option>
-                            <option value="movie">What was your favorite childhood movie?</option>
-                            <option value="sport">What sport did you play in school?</option>
-                            <option value="color">What is your favorite color?</option>
-                        </select>
-                        <input type="text" id="answer3" placeholder="Your answer" required style="width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; margin-top: 8px;">
-                    </div>
-
-                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;" id="completeSetupBtn">
-                        <span id="setupBtnText">Complete Setup & Generate Encryption Key</span>
-                        <span id="setupBtnLoading" class="hidden">
-                            <span class="loading"></span> Generating Key...
-                        </span>
-                    </button>
-                </form>
-
-                <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 15px; margin-top: 20px; text-align: left;">
-                    <h4 style="color: #0369a1; font-size: 14px; font-weight: 600; margin-bottom: 5px;">
-                        🔐 What Happens Next
-                    </h4>
-                    <p style="color: #0c4a6e; font-size: 13px; line-height: 1.4;">
-                        Your answers will create a unique encryption key that only you know. 
-                        This key encrypts all your health data before it's stored in our secure cloud.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Dashboard -->
-        <div id="dashboard" class="hidden">
-            <div class="glass-card" style="text-align: center; margin-bottom: 30px;">
-                <h1 style="font-size: 24px; font-weight: 700; color: #333; margin-bottom: 10px;">
-                    Welcome to Your Health Dashboard
-                </h1>
-                <p style="color: #666; font-size: 16px;">
-                    Your secure, privacy-first health analysis platform is ready to use.
-                </p>
+                <button id="logoutBtn" class="logout-btn">Sign Out</button>
             </div>
 
-            <!-- Quick Upload Area -->
-            <div class="glass-card" style="margin-bottom: 30px;">
-                <h2 style="color: #333; margin-bottom: 20px; font-size: 20px;">Upload Health Documents</h2>
-                
-                <div class="upload-zone" id="uploadZone">
-                    <div class="upload-icon">📄</div>
-                    <h3>Drag & Drop PDF Files Here</h3>
-                    <p>or <span style="color: #4f46e5; cursor: pointer; text-decoration: underline; font-weight: 600;" onclick="document.getElementById('fileInput').click()">browse your files</span></p>
-                    <div style="margin-top: 15px;">
-                        <small style="color: #94a3b8; font-size: 13px;">Supports: PDF files up to 25MB each • Encrypted before upload</small>
+            <div class="nav-tabs">
+                <div class="nav-tab active" data-tab="upload">Upload Documents</div>
+                <div class="nav-tab" data-tab="analysis">AI Analysis</div>
+                <div class="nav-tab" data-tab="trends">Health Trends</div>
+            </div>
+
+            <div id="uploadTab" class="tab-content active">
+                <div class="dashboard-content">
+                    <h2 style="color: #333; margin-bottom: 20px;">Upload Health Documents</h2>
+                    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-icon">📄</div>
+                        <h3 style="color: #667eea; margin-bottom: 10px;">Drop files here or click to upload</h3>
+                        <p style="color: #666;">Supported: PDF lab reports, body composition scans</p>
+                        <p style="color: #999; font-size: 0.9rem; margin-top: 10px;">All files are encrypted before upload</p>
                     </div>
-                </div>
-                
-                <input type="file" id="fileInput" accept=".pdf" multiple style="display: none;">
-                
-                <div id="uploadProgress" class="hidden" style="margin-top: 20px;">
-                    <h3 style="color: #333; margin-bottom: 15px;">Processing Documents</h3>
-                    <div id="uploadList"></div>
+                    <input type="file" id="fileInput" accept=".pdf" multiple style="display: none;">
                 </div>
             </div>
 
-            <!-- Document Library -->
-            <div class="glass-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2 style="color: #333; margin: 0; font-size: 20px;">Your Document Library</h2>
-                    <div style="color: #666; font-size: 14px;">
-                        <span id="docCount">0 documents</span> • 
-                        <span id="storageUsed">0 MB used</span>
+            <div id="analysisTab" class="tab-content">
+                <div class="dashboard-content">
+                    <h2 style="color: #333; margin-bottom: 20px;">AI Health Analysis</h2>
+                    <p style="color: #666; margin-bottom: 20px;">Upload your first health document to see AI-powered insights here.</p>
+                    <div style="background: #e8f4f8; padding: 20px; border-radius: 10px;">
+                        <h3 style="color: #2d5aa0; margin-bottom: 10px;">🔮 Coming Soon: Local AI Analysis</h3>
+                        <p style="color: #4a6fa5;">Advanced AI will run locally on your device to analyze health trends, identify patterns, and provide personalized recommendations.</p>
                     </div>
                 </div>
-                
-                <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-                    <input type="text" id="searchDocs" placeholder="Search documents..." style="flex: 1; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px;">
-                    <select id="filterType" style="width: 150px; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px;">
-                        <option value="all">All Documents</option>
-                        <option value="lab">Lab Reports</option>
-                        <option value="scan">Body Scans</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
+            </div>
 
-                <div id="documentGrid" class="document-grid">
-                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #666;">
-                        <div style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;">📁</div>
-                        <h3>No documents uploaded yet</h3>
-                        <p>Upload your first health document to get started with AI analysis.</p>
+            <div id="trendsTab" class="tab-content">
+                <div class="dashboard-content">
+                    <h2 style="color: #333; margin-bottom: 20px;">Health Trends</h2>
+                    <p style="color: #666; margin-bottom: 20px;">Track your health metrics over time with interactive charts.</p>
+                    <div style="background: #f0f8e8; padding: 20px; border-radius: 10px;">
+                        <h3 style="color: #2d5a20; margin-bottom: 10px;">📊 Coming Soon: Trend Analysis</h3>
+                        <p style="color: #4a5a4a;">Visualize your health journey with comprehensive charts showing improvements, changes, and patterns across all your health data.</p>
                     </div>
                 </div>
             </div>
@@ -555,189 +349,276 @@
     </div>
 
     <script>
-        // ========================================
-        // PRODUCTION CONFIGURATION
-        // ========================================
-        
+        // Configuration
         const CONFIG = {
-            // Your actual backend URL
             API_BASE_URL: 'https://analysemyhealth-backend.abhishekgaur749.workers.dev',
-            
-            // Replace with your Google OAuth client ID when ready
             GOOGLE_CLIENT_ID: '674371229764-dbvid7j0lk44267igqkk87tg1onf4m2r.apps.googleusercontent.com',
-            
-            ENVIRONMENT: 'production',
-            VERSION: '1.0.0',
-            MAX_FILE_SIZE: 25 * 1024 * 1024, // 25MB
-            MAX_DOCUMENTS: 500,
-            SUPPORTED_TYPES: ['application/pdf']
+            APP_NAME: 'HealthAI',
+            VERSION: '1.0.0'
         };
 
-        // ========================================
-        // GLOBAL STATE
-        // ========================================
-        
+        // Global state
         let currentUser = null;
-        let sessionToken = null;
-        let encryptionKey = null;
-        let documents = [];
+        let googleAuth = null;
 
-        // ========================================
-        // UTILITY FUNCTIONS
-        // ========================================
-        
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
+        // Initialize Google OAuth when page loads
+        window.onload = function() {
+            initializeGoogleAuth();
+            setupEventListeners();
+        };
+
+        function initializeGoogleAuth() {
+            if (typeof google === 'undefined') {
+                console.log('Google SDK still loading...');
+                setTimeout(initializeGoogleAuth, 500);
+                return;
+            }
+
+            google.accounts.id.initialize({
+                client_id: CONFIG.GOOGLE_CLIENT_ID,
+                callback: handleGoogleResponse,
+                auto_select: false,
+                cancel_on_tap_outside: false
+            });
+
+            console.log('Google OAuth initialized successfully');
+        }
+
+        function setupEventListeners() {
+            // Google Sign In button
+            const signInBtn = document.getElementById('googleSignInBtn');
+            if (signInBtn) {
+                signInBtn.addEventListener('click', signInWithGoogle);
+            }
+
+            // Logout button
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', logout);
+            }
+
+            // Tab navigation
+            const tabButtons = document.querySelectorAll('.nav-tab');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => switchTab(button.dataset.tab));
+            });
+
+            // File upload
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput) {
+                fileInput.addEventListener('change', handleFileUpload);
+            }
+        }
+
+        function signInWithGoogle() {
+            if (typeof google === 'undefined') {
+                showError('Google authentication is still loading. Please try again in a moment.');
+                return;
+            }
+
+            showLoading(true);
             
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+            try {
+                google.accounts.id.prompt((notification) => {
+                    console.log('Google prompt notification:', notification);
+                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                        showLoading(false);
+                        showError('Google sign-in was cancelled or not available.');
+                    }
+                });
+            } catch (error) {
+                console.error('Error initiating Google sign-in:', error);
+                showLoading(false);
+                showError('Failed to start Google sign-in. Please try again.');
+            }
         }
 
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
+        async function handleGoogleResponse(response) {
+            console.log('Google response received:', response);
+            showLoading(true);
 
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
+            try {
+                // Send the credential to our backend for verification
+                const backendResponse = await fetch(`${CONFIG.API_BASE_URL}/auth/google`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        credential: response.credential
+                    })
+                });
 
-        // ========================================
-        // AUTHENTICATION FUNCTIONS
-        // ========================================
-        
-        async function signInWithGoogle() {
-            showToast('Demo mode active - simulating Google OAuth', 'success');
-            
-            // Simulate Google OAuth for demo
-            setTimeout(() => {
-                const demoUser = {
-                    id: 'demo_user_123',
-                    email: 'demo@healthai.com',
-                    name: 'Demo User',
-                    picture: 'https://via.placeholder.com/40/4f46e5/ffffff?text=DU'
-                };
+                if (!backendResponse.ok) {
+                    throw new Error(`Authentication failed: ${backendResponse.status}`);
+                }
+
+                const userData = await backendResponse.json();
+                console.log('Backend authentication successful:', userData);
+
+                // Store user data and show dashboard
+                currentUser = userData.user;
+                localStorage.setItem('healthai_user', JSON.stringify(currentUser));
+                localStorage.setItem('healthai_token', userData.token);
                 
-                currentUser = demoUser;
-                sessionToken = 'demo-session-token';
-                
-                showSecuritySetup();
-            }, 1500);
-        }
-
-        // ========================================
-        // SECURITY SETUP
-        // ========================================
-        
-        function showSecuritySetup() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('securitySetup').classList.remove('hidden');
-            updateHeader();
-        }
-
-        document.getElementById('securityForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const setupBtn = document.getElementById('completeSetupBtn');
-            const btnText = document.getElementById('setupBtnText');
-            const btnLoading = document.getElementById('setupBtnLoading');
-            
-            btnText.classList.add('hidden');
-            btnLoading.classList.remove('hidden');
-            setupBtn.disabled = true;
-            
-            // Simulate encryption key generation
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            btnLoading.classList.add('hidden');
-            btnText.textContent = 'Setup Complete!';
-            btnText.innerHTML += ' <span style="color: #10b981;">✓</span>';
-            btnText.classList.remove('hidden');
-            
-            showToast('Encryption key generated successfully!', 'success');
-            
-            setTimeout(() => {
                 showDashboard();
-            }, 1500);
-        });
 
-        // ========================================
-        // DASHBOARD
-        // ========================================
-        
-        function showDashboard() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('securitySetup').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-            updateHeader();
-            loadDemoDocuments();
-            setupFileUpload();
+            } catch (error) {
+                console.error('Authentication error:', error);
+                showError('Authentication failed. Please try again.');
+            } finally {
+                showLoading(false);
+            }
         }
 
-        function updateHeader() {
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+
+            // Update user info
             if (currentUser) {
-                document.getElementById('userInfo').style.display = 'flex';
-                document.getElementById('userName').textContent = currentUser.name;
-                document.getElementById('userAvatar').src = currentUser.picture;
+                document.getElementById('userName').textContent = currentUser.name || 'User';
+                document.getElementById('userEmail').textContent = currentUser.email || '';
+                document.getElementById('userAvatar').src = currentUser.picture || '';
             }
         }
 
         function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                currentUser = null;
-                sessionToken = null;
-                documents = [];
+            // Clear stored data
+            localStorage.removeItem('healthai_user');
+            localStorage.removeItem('healthai_token');
+            currentUser = null;
+
+            // Sign out from Google
+            if (typeof google !== 'undefined') {
+                google.accounts.id.disableAutoSelect();
+            }
+
+            // Show login screen
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+        }
+
+        async function handleFileUpload(event) {
+            const files = event.target.files;
+            if (files.length === 0) return;
+
+            const file = files[0];
+            
+            // Validate file type
+            if (file.type !== 'application/pdf') {
+                showError('Please upload only PDF files.');
+                return;
+            }
+
+            // Validate file size (25MB limit)
+            if (file.size > 25 * 1024 * 1024) {
+                showError('File size must be less than 25MB.');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                // Create form data for upload
+                const formData = new FormData();
+                formData.append('document', file);
+                formData.append('type', 'health_report');
+
+                const token = localStorage.getItem('healthai_token');
+                const response = await fetch(`${CONFIG.API_BASE_URL}/documents/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Upload failed: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('File uploaded successfully:', result);
                 
-                document.getElementById('authScreen').classList.remove('hidden');
-                document.getElementById('securitySetup').classList.add('hidden');
-                document.getElementById('dashboard').classList.add('hidden');
-                document.getElementById('userInfo').style.display = 'none';
-                
-                document.getElementById('securityForm').reset();
-                showToast('Logged out successfully', 'success');
+                // Show success message
+                showSuccess('File uploaded successfully! AI analysis will be available soon.');
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                showError('Failed to upload file. Please try again.');
+            } finally {
+                showLoading(false);
+                event.target.value = ''; // Reset file input
             }
         }
 
-        // ========================================
-        // FILE UPLOAD DEMO
-        // ========================================
-        
-        function setupFileUpload() {
-            const uploadZone = document.getElementById('uploadZone');
-            const fileInput = document.getElementById('fileInput');
+        function showLoading(show) {
+            const loading = document.getElementById('loading');
+            const button = document.getElementById('googleSignInBtn');
             
-            uploadZone.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+            if (loading) loading.style.display = show ? 'flex' : 'none';
+            if (button) button.style.opacity = show ? '0.6' : '1';
         }
 
-        function handleFiles(files) {
-            const fileArray = Array.from(files);
-            showToast(`Processing ${fileArray.length} file(s) with local encryption...`, 'success');
-            
-            // Demo: Add files to document library
-            fileArray.forEach(file => {
-                if (file.type === 'application/pdf' && file.size <= CONFIG.MAX_FILE_SIZE) {
-                    const doc = {
-                        id: generateId(),
-                        name: file.name,
-                        size: file.size,
-                        type: detectDocumentType(file.name),
-                        uploadDate: new Date(),
-                        encrypted: true
-                    };
-                    documents.push(doc);
-                }
-            });
-            
-            setTimeout(() => {
-                displayDocuments();
-                showToast('Documents uploaded and encrypted successfully!', 'success');
-            }, 2000);
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
         }
+
+        function showSuccess(message) {
+            // Create a temporary success message
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                background: #e6ffe6;
+                color: #2d5a2d;
+                padding: 15px;
+                border-radius: 10px;
+                margin-top: 20px;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            `;
+            successDiv.textContent = message;
+            document.body.appendChild(successDiv);
+
+            setTimeout(() => {
+                document.body.removeChild(successDiv);
+            }, 5000);
+        }
+
+        // Check for existing session on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedUser = localStorage.getItem('healthai_user');
+            const savedToken = localStorage.getItem('healthai_token');
+            
+            if (savedUser && savedToken) {
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
+            }
+        });
+    </script>
+</body>
+</html>
